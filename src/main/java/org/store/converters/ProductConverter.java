@@ -8,6 +8,7 @@ import org.store.entities.Product;
 public class ProductConverter {
     public Product dtoToEntity(ProductDto productDto) {
         Product product = new Product();
+        product.setId(productDto.getId());
         product.setTitle(productDto.getTitle());
         product.setPrice(productDto.getPrice());
         return product;

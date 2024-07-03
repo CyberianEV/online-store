@@ -2,7 +2,6 @@ package org.store.services;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.store.dtos.ProductDto;
 import org.store.entities.Product;
 import org.store.repositories.ProductRepository;
 
@@ -23,6 +22,7 @@ public class ProductService {
     }
 
     public Product createNewProduct(Product product) {
+        product.setId(null);
         return productRepository.save(product);
     }
 
