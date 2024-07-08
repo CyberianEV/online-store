@@ -15,6 +15,12 @@ public class CartService {
     private final ProductService productService;
     private Cart cart;
 
+    @PostConstruct
+    public void init() {
+        cart = new Cart();
+        cart.setItems(new ArrayList<>());
+    }
+
     public void addProductToCart(Long id) {
         Product p = productService.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException(
@@ -27,9 +33,11 @@ public class CartService {
         return cart;
     }
 
-    @PostConstruct
-    public void init() {
-        cart = new Cart();
-        cart.setItems(new ArrayList<>());
+    public void clearCart() {
+        cart.clear();
+    }
+
+    public void changeCartItemQuantity(Long productId, int delta) {
+        cart.changeItemQuantity(productId, delta);
     }
 }

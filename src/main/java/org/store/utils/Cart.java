@@ -2,6 +2,9 @@ package org.store.utils;
 
 import lombok.Data;
 import org.store.entities.Product;
+import org.store.exceptions.ResourceNotFoundException;
+import org.store.exceptions.ZeroQuantityException;
+
 import java.math.BigDecimal;
 import java.util.List;
 
@@ -13,13 +16,32 @@ public class Cart {
     public void addProduct(Product p) {
         for (CartItem item : items) {
             if (item.getProductId().equals(p.getId())) {
-                item.incrementQuantity();
+//                item.incrementQuantity();
+                item.changeQuantity(1);
                 recalculate();
                 return;
             }
         }
         items.add(new CartItem(p.getId(), p.getTitle(), p.getPrice(), 1, p.getPrice()));
         recalculate();
+    }
+
+    public void changeItemQuantity(Long productId, int delta) {
+        try {
+            items.stream()
+                    .filter(i -> i.getProductId().equals(productId))
+                    .findFirst()
+                    .orElseThrow(() -> new ResourceNotFoundException("There is no such product in the cart, product_id:" + productId))
+                    .changeQuantity(delta);
+        } catch (ZeroQuantityException e) {
+            items.removeIf(i -> i.getProductId().equals(productId));
+        }
+        recalculate();
+    }
+
+    public void clear() {
+        items.clear();
+        totalPrice = BigDecimal.ZERO;
     }
 
     private void recalculate() {
@@ -29,10 +51,5 @@ public class Cart {
 
 //        totalPrice = BigDecimal.ZERO;
 //        items.forEach(item -> totalPrice = totalPrice.add(item.getPrice()));
-    }
-
-    public void clear() {
-        items.clear();
-        totalPrice = BigDecimal.ZERO;
     }
 }

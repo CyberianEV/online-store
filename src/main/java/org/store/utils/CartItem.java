@@ -3,6 +3,7 @@ package org.store.utils;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.store.exceptions.ZeroQuantityException;
 
 import java.math.BigDecimal;
 
@@ -19,5 +20,13 @@ public class CartItem {
     public void incrementQuantity() {
         quantity++;
         price = price.add(pricePerProduct);
+    }
+
+    public void changeQuantity(int delta) {
+        quantity += delta;
+        if (quantity <= 0) {
+            throw new ZeroQuantityException("Cart item quantity is 0");
+        }
+        price = pricePerProduct.multiply(BigDecimal.valueOf(quantity));
     }
 }

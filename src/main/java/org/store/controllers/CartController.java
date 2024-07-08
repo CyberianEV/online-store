@@ -21,4 +21,14 @@ public class CartController {
         cartService.addProductToCart(productId);
     }
 
+    @GetMapping("/clear")
+    public void clearCart() {
+        cartService.clearCart();
+    }
+
+    @GetMapping("/change_quantity")
+    public void changeCartItemQuantity(@RequestParam Long productId, @RequestParam int delta) {
+        cartService.changeCartItemQuantity(productId, delta);
+    }
+
 }
