@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.*;
 import org.store.converters.ProductConverter;
 import org.store.dtos.ProductDto;
 import org.store.entities.Product;
+import org.store.exceptions.ResourceNotFoundException;
 import org.store.services.ProductService;
 
 import java.util.List;
@@ -26,7 +27,8 @@ public class ProductController {
 
     @GetMapping("/{id}")
     public ProductDto findById(@PathVariable Long id) {
-        return productConverter.entityToDto(productService.findById(id).orElseThrow(RuntimeException :: new));
+        return productConverter.entityToDto(productService.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Cannot find product, id: " + id)));
     }
 
     @PostMapping
