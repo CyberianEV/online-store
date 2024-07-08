@@ -51,6 +51,9 @@
             <input type="number" step=".01" class="form-control" id="newProductPrice" ng-model="newProduct.price" placeholder="Price">
         </div>
         <div class="col-auto">
+            <input type="text" class="form-control" id="newProductCategory" ng-model="newProduct.category" placeholder="Category">
+        </div>
+        <div class="col-auto">
             <button type="submit" class="btn btn-primary mb-3">Add</button>
         </div>
     </form>
@@ -62,6 +65,7 @@
         <tr>
             <td>ID</td>
             <td>Title</td>
+            <td>Quantity</td>
             <td>Price</td>
         </tr>
         </thead>
@@ -69,10 +73,23 @@
         <tr ng-repeat="i in cart.items">
             <td>{{i.productId}}</td>
             <td>{{i.productTitle}}</td>
-            <td>{{i.price}}</td>
+            <td>
+                <button class="btn btn-primary" ng-click="changeItemQuantity(i.productId, -1)">-</button>
+                {{i.quantity}}
+                <button class="btn btn-primary" ng-click="changeItemQuantity(i.productId, 1)">+</button>
+            </td>
+            <td>{{i.quantity}} x {{i.pricePerProduct}} = {{i.price}}</td>
+        </tr>
+        <tr>
+            <td></td>
+            <td></td>
+            <td><b>Total price</b></td>
+            <td><b>{{cart.totalPrice}}</b></td>
         </tr>
         </tbody>
     </table>
+    <p></p>
+    <button class="btn btn-danger" ng-click="clearCart()">Empty Cart</button>
     <p></p>
 </div>
 </body>
