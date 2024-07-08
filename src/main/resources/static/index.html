@@ -35,7 +35,7 @@
             <td>{{p.title}}</td>
             <td>{{p.price}}</td>
             <td>
-                <button class="btn btn-primary" ng-click="addProductToCart(p)">Add to cart</button>
+                <button class="btn btn-primary" ng-click="addProductToCart(p.id)">Add to cart</button>
             </td>
         </tr>
         </tbody>
@@ -48,7 +48,7 @@
             <input type="text" class="form-control" id="newProductTitle" ng-model="newProduct.title" placeholder="Title">
         </div>
         <div class="col-auto">
-            <input type="number" class="form-control" id="newProductPrice" ng-model="newProduct.price" placeholder="Price">
+            <input type="number" step=".01" class="form-control" id="newProductPrice" ng-model="newProduct.price" placeholder="Price">
         </div>
         <div class="col-auto">
             <button type="submit" class="btn btn-primary mb-3">Add</button>
@@ -66,10 +66,10 @@
         </tr>
         </thead>
         <tbody>
-        <tr ng-repeat="c in cart">
-            <td>{{c.id}}</td>
-            <td>{{c.title}}</td>
-            <td>{{c.price}}</td>
+        <tr ng-repeat="i in cart.items">
+            <td>{{i.productId}}</td>
+            <td>{{i.productTitle}}</td>
+            <td>{{i.price}}</td>
         </tr>
         </tbody>
     </table>
