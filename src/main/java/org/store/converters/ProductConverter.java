@@ -33,4 +33,13 @@ public class ProductConverter {
         productDto.setCategory(p.getCategory().getTitle());
         return productDto;
     }
+
+    public org.store.soap.products.Product entityToSoap(Product p) {
+        org.store.soap.products.Product soapProduct = new org.store.soap.products.Product();
+        soapProduct.setId(p.getId());
+        soapProduct.setTitle(p.getTitle());
+        soapProduct.setPrice(p.getPrice());
+        soapProduct.setCategory(p.getCategory().getTitle());
+        return soapProduct;
+    }
 }
