@@ -3,7 +3,7 @@ package org.store.core.controllers;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import org.store.core.converters.ProductConverter;
-import org.store.core.dtos.ProductDto;
+import org.store.api.ProductDto;
 import org.store.core.entities.Product;
 import org.store.core.exceptions.ResourceNotFoundException;
 import org.store.core.services.ProductService;

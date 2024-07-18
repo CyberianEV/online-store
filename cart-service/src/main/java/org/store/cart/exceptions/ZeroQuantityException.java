@@ -1,4 +1,4 @@
-package org.store.core.exceptions;
+package org.store.cart.exceptions;
 
 public class ZeroQuantityException extends RuntimeException {
     public ZeroQuantityException(String message) {

@@ -1,13 +1,13 @@
-package org.store.core.dtos;
+package org.store.cart.exceptions;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class JwtRequest {
-    private String username;
-    private String password;
+@Data
+public class AppError {
+    private String errorCode;
+    private String message;
 }

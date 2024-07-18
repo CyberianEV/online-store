@@ -42,21 +42,21 @@ angular.module('store', ['ngStorage']).controller('indexController', function ($
     };
 
     $scope.addProductToCart = function (productId) {
-        $http.get(contextPath + '/cart/add/' + productId)
+        $http.get('http://localhost:8191/store/api/v1/cart/add/' + productId)
             .then(function (response) {
                 $scope.fillCart();
             });
     };
 
     $scope.fillCart = function () {
-        $http.get(contextPath + '/cart')
+        $http.get('http://localhost:8191/store/api/v1/cart')
             .then(function (response) {
                 $scope.cart = response.data;
             });
     };
 
     $scope.clearCart = function () {
-        $http.get(contextPath + '/cart/clear')
+        $http.get('http://localhost:8191/store/api/v1/cart/clear')
             .then(function (response) {
                 $scope.fillCart();
             });
@@ -64,7 +64,7 @@ angular.module('store', ['ngStorage']).controller('indexController', function ($
 
     $scope.changeItemQuantity = function(productId, delta) {
         $http({
-            url: contextPath + '/cart/change_quantity',
+            url: 'http://localhost:8191/store/api/v1/cart/change_quantity',
             method: 'GET',
             params: {
                 productId: productId,

@@ -3,7 +3,7 @@ package org.store.core.controllers;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.store.core.dtos.UserInfoDto;
+import org.store.api.UserInfoDto;
 import org.store.core.exceptions.ResourceNotFoundException;
 import org.store.core.services.UserService;
 import org.store.core.entities.User;

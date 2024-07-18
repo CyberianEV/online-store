@@ -1,10 +1,10 @@
-package org.store.core.converters;
+package org.store.cart.converters;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
-import org.store.core.dtos.CartDto;
-import org.store.core.dtos.CartItemDto;
-import org.store.core.utils.Cart;
+import org.store.api.CartDto;
+import org.store.api.CartItemDto;
+import org.store.cart.utils.Cart;
 
 import java.util.ArrayList;
 import java.util.List;

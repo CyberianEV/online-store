@@ -1,9 +1,9 @@
-package org.store.core.utils;
+package org.store.cart.utils;
 
 import lombok.Data;
-import org.store.core.entities.Product;
-import org.store.core.exceptions.ResourceNotFoundException;
-import org.store.core.exceptions.ZeroQuantityException;
+import org.store.api.ProductDto;
+import org.store.cart.exceptions.ResourceNotFoundException;
+import org.store.cart.exceptions.ZeroQuantityException;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -13,7 +13,7 @@ public class Cart {
     private List<CartItem> items;
     private BigDecimal totalPrice;
 
-    public void addProduct(Product p) {
+    public void addProduct(ProductDto p) {
         for (CartItem item : items) {
             if (item.getProductId().equals(p.getId())) {
 //                item.incrementQuantity();

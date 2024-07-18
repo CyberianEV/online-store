@@ -1,19 +1,22 @@
-package org.store.core.controllers;
+package org.store.cart.controllers;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
-import org.store.core.services.CartService;
-import org.store.core.utils.Cart;
+import org.store.api.CartDto;
+import org.store.cart.converters.CartConverter;
+import org.store.cart.services.CartService;
 
 @RestController
 @RequestMapping("/api/v1/cart")
 @RequiredArgsConstructor
+@CrossOrigin("*")
 public class CartController {
     private final CartService cartService;
+    private final CartConverter cartConverter;
 
     @GetMapping
-    public Cart getCurrentCart() {
-        return cartService.getCurrentCart();
+    public CartDto getCurrentCart() {
+        return cartConverter.entityToDto(cartService.getCurrentCart());
     }
 
     @GetMapping("/add/{productId}")

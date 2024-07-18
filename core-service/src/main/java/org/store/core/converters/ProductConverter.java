@@ -2,7 +2,7 @@ package org.store.core.converters;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
-import org.store.core.dtos.ProductDto;
+import org.store.api.ProductDto;
 import org.store.core.entities.Product;
 import org.store.core.exceptions.ResourceNotFoundException;
 import org.store.core.services.CategoryService;

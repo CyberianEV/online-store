@@ -1,9 +1,9 @@
-package org.store.core.utils;
+package org.store.cart.utils;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.store.core.exceptions.ZeroQuantityException;
+import org.store.cart.exceptions.ZeroQuantityException;
 
 import java.math.BigDecimal;
 
