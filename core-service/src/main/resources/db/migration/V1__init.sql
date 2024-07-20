@@ -60,3 +60,22 @@ VALUES  ('John', '$2y$10$1wwLrEcMkaClj8tl39GzLu11o9QsmkaFvIZJeY78m2AfpDQwcfPpq',
 INSERT INTO users_roles (user_id, role_id)
 VALUES  (1, 1),
         (2, 2);
+
+CREATE TABLE orders (
+    id              BIGSERIAL PRIMARY KEY,
+    user_id         BIGINT REFERENCES users (id),
+    total_price     NUMERIC(8, 2),
+    created_at      TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at      TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE order_items (
+    id                  BIGSERIAL PRIMARY KEY,
+    order_id            BIGINT REFERENCES orders (id),
+    product_id          BIGINT REFERENCES products (id),
+    quantity            INT,
+    price_per_product   NUMERIC(8, 2),
+    price               NUMERIC(8, 2),
+    created_at          TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at          TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);

@@ -44,11 +44,11 @@ angular.module('store', ['ngStorage']).controller('indexController', function ($
     $scope.addProductToCart = function (productId) {
         $http.get('http://localhost:8191/store/api/v1/cart/add/' + productId)
             .then(function (response) {
-                $scope.fillCart();
+                $scope.loadCart();
             });
     };
 
-    $scope.fillCart = function () {
+    $scope.loadCart = function () {
         $http.get('http://localhost:8191/store/api/v1/cart')
             .then(function (response) {
                 $scope.cart = response.data;
@@ -58,7 +58,7 @@ angular.module('store', ['ngStorage']).controller('indexController', function ($
     $scope.clearCart = function () {
         $http.get('http://localhost:8191/store/api/v1/cart/clear')
             .then(function (response) {
-                $scope.fillCart();
+                $scope.loadCart();
             });
     };
 
@@ -71,7 +71,7 @@ angular.module('store', ['ngStorage']).controller('indexController', function ($
                 delta: delta
             }
         }).then(function (response) {
-            $scope.fillCart();
+            $scope.loadCart();
         });
     };
 
@@ -111,6 +111,15 @@ angular.module('store', ['ngStorage']).controller('indexController', function ($
             });
     };
 
+    $scope.createOrder = function () {
+        $http.post(contextPath + '/orders')
+            .then(function successCallback(response) {
+                $scope.loadCart();
+            }, function errorCallback(response) {
+                alert(response.data.message);
+            });
+    };
+
     $scope.loadProducts();
-    $scope.fillCart();
+    $scope.loadCart();
 });
