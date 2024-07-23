@@ -11,10 +11,10 @@ public class CartServiceIntegration {
     private final RestTemplate restTemplate;
 
     public CartDto getCurrentCart() {
-        return restTemplate.getForObject("http://localhost:8191/store/api/v1/cart", CartDto.class);
+        return restTemplate.getForObject("http://localhost:8191/store-cart/api/v1/cart", CartDto.class);
     }
 
     public void clearCart() {
-        restTemplate.getForObject("http://localhost:8191/store/api/v1/cart/clear", Object.class);
+        restTemplate.getForObject("http://localhost:8191/store-cart/api/v1/cart/clear", Object.class);
     }
 }
