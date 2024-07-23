@@ -15,9 +15,8 @@ import org.store.auth.services.UserService;
 import org.store.auth.utils.JwtUtil;
 
 @RestController
-@RequestMapping("/auth")
+@RequestMapping("/authenticate")
 @RequiredArgsConstructor
-@CrossOrigin("*")
 public class AuthController {
     private final AuthenticationManager authenticationManager;
     private final UserService userService;

@@ -1,5 +1,5 @@
 angular.module('store', ['ngStorage']).controller('indexController', function ($scope, $http, $localStorage) {
-    const contextPath = 'http://localhost:8190/store-core/api/v1';
+    const contextPath = 'http://localhost:5555/core/api/v1';
 
     if ($localStorage.onlineStoreUser) {
         try {
@@ -25,12 +25,12 @@ angular.module('store', ['ngStorage']).controller('indexController', function ($
             });
     };
 
-    $scope.deleteProduct = function (id) {
-        $http.delete(contextPath + '/products/' + id)
-            .then(function (response) {
-                $scope.loadProducts();
-            });
-    };
+//    $scope.deleteProduct = function (id) {
+//        $http.delete(contextPath + '/products/' + id)
+//            .then(function (response) {
+//                $scope.loadProducts();
+//            });
+//    };
 
     $scope.createNewProduct = function () {
         // console.log($scope.newProduct);
@@ -42,21 +42,21 @@ angular.module('store', ['ngStorage']).controller('indexController', function ($
     };
 
     $scope.addProductToCart = function (productId) {
-        $http.get('http://localhost:8191/store-cart/api/v1/cart/add/' + productId)
+        $http.get('http://localhost:5555/cart/api/v1/cart/add/' + productId)
             .then(function (response) {
                 $scope.loadCart();
             });
     };
 
     $scope.loadCart = function () {
-        $http.get('http://localhost:8191/store-cart/api/v1/cart')
+        $http.get('http://localhost:5555/cart/api/v1/cart')
             .then(function (response) {
                 $scope.cart = response.data;
             });
     };
 
     $scope.clearCart = function () {
-        $http.get('http://localhost:8191/store-cart/api/v1/cart/clear')
+        $http.get('http://localhost:5555/cart/api/v1/cart/clear')
             .then(function (response) {
                 $scope.loadCart();
             });
@@ -64,7 +64,7 @@ angular.module('store', ['ngStorage']).controller('indexController', function ($
 
     $scope.changeItemQuantity = function(productId, delta) {
         $http({
-            url: 'http://localhost:8191/store-cart/api/v1/cart/change_quantity',
+            url: 'http://localhost:5555/cart/api/v1/cart/change_quantity',
             method: 'GET',
             params: {
                 productId: productId,
@@ -76,7 +76,7 @@ angular.module('store', ['ngStorage']).controller('indexController', function ($
     };
 
     $scope.tryToLogin = function () {
-        $http.post('http://localhost:8192/store-auth/auth', $scope.user)
+        $http.post('http://localhost:5555/auth/authenticate', $scope.user)
             .then(function successCallback(response) {
                 if (response.data.jwToken) {
                     $http.defaults.headers.common.Authorization = 'Bearer ' + response.data.jwToken;
@@ -105,7 +105,7 @@ angular.module('store', ['ngStorage']).controller('indexController', function ($
     };
 
     $scope.getUserInfo = function () {
-        $http.get('http://localhost:8190/store-core/get_my_email')
+        $http.get('http://localhost:5555/core/get_my_email')
             .then(function (response) {
                 alert(response.data.userInfo);
             });

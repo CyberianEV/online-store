@@ -1,7 +1,6 @@
 server:
-  port: 8190
-  servlet:
-    context-path: /store-core
+  port: 5555
+
 spring:
   application:
     name: gateway-service
