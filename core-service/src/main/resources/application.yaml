@@ -18,3 +18,10 @@ spring:
       enabled: true
       settings:
         web-allow-others: false
+
+integrations:
+  cart-service:
+    url: http://localhost:8191/store-cart
+    connect-timeout: 5000
+    read-timeout: 15000
+    write-timeout: 5000
