@@ -11,9 +11,9 @@ import org.store.core.services.OrderService;
 public class OrderController {
     private final OrderService orderService;
 
-//    @PostMapping
-//    @ResponseStatus(HttpStatus.CREATED)
-//    public void createNewOrder (Principal principal) {
-//        orderService.createNewOrder(principal.getName());
-//    }
+    @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
+    public void createNewOrder (@RequestHeader String username) {
+        orderService.createNewOrder(username);
+    }
 }

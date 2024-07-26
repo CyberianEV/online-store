@@ -15,7 +15,7 @@ import org.store.core.utils.ProfilingUtils;
 public class StoreAspects {
     private final ProfilingUtils profilingUtils;
 
-    @Around("execution(public * org.store.services.*.*(..))")
+    @Around("execution(public * org.store.core.services.*.*(..))")
     public Object servicesExecutionTimeCounting(ProceedingJoinPoint proceedingJoinPoint) throws Throwable {
         long startTime = System.currentTimeMillis();
         Object out = proceedingJoinPoint.proceed();
