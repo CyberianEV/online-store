@@ -11,6 +11,6 @@ public class ProductServiceIntegration {
     private final RestTemplate restTemplate;
 
     public ProductDto findById(Long id) {
-        return restTemplate.getForObject("http://localhost:8190/store/api/v1/products/" + id, ProductDto.class);
+        return restTemplate.getForObject("http://localhost:8190/store-core/api/v1/products/" + id, ProductDto.class);
     }
 }

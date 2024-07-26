@@ -20,9 +20,8 @@ public class Order {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne()
-    @JoinColumn(name = "user_id")
-    private User user;
+   @Column(name = "username")
+    private String username;
 
     @Column(name = "total_price")
     private BigDecimal totalPrice;

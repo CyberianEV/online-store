@@ -1,4 +1,4 @@
-package org.store.core.controllers;
+package org.store.auth.controllers;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -10,12 +10,12 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 import org.store.api.JwtRequest;
 import org.store.api.JwtResponse;
-import org.store.core.exceptions.AppError;
-import org.store.core.services.UserService;
-import org.store.core.utils.JwtUtil;
+import org.store.auth.exceptions.AppError;
+import org.store.auth.services.UserService;
+import org.store.auth.utils.JwtUtil;
 
 @RestController
-@RequestMapping("/auth")
+@RequestMapping("/authenticate")
 @RequiredArgsConstructor
 public class AuthController {
     private final AuthenticationManager authenticationManager;

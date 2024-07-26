@@ -9,7 +9,7 @@ import org.store.api.CartItemDto;
 import org.store.core.entities.Order;
 import org.store.core.entities.OrderItem;
 import org.store.core.entities.Product;
-import org.store.core.entities.User;
+//import org.store.core.entities.User;
 import org.store.core.exceptions.ResourceNotFoundException;
 import org.store.core.integrations.CartServiceIntegration;
 import org.store.core.repositories.OrderRepository;
@@ -26,28 +26,28 @@ public class OrderService {
     private final OrderRepository orderRepository;
     private final CartServiceIntegration cartServiceIntegration;
     private final ProductService productService;
-    private final UserService userService;
+//    private final UserService userService;
 
-    @Transactional
-    public void createNewOrder(String username) {
-        CartDto cart = cartServiceIntegration.getCurrentCart();
-        List<CartItemDto> items = cart.getItems();
-        if (items.isEmpty()) {
-            throw new ResourceNotFoundException("Cart is empty");
-        }
-        User user = userService.findByUsername(username)
-                .orElseThrow(() -> 
-                        new ResourceNotFoundException(String.format("Unable to create an order, user %s not found", 
-                                username))
-                );
-        Order order = new Order();
-        order.setUser(user);
-        order.setTotalPrice(BigDecimal.ZERO);
-        order.setOrderItems(new ArrayList<>());
-        fetchOrderItemsAndCalculateTotalPrice(items, order);
-        orderRepository.save(order);
-        cartServiceIntegration.clearCart();
-    }
+//    @Transactional
+//    public void createNewOrder(String username) {
+//        CartDto cart = cartServiceIntegration.getCurrentCart();
+//        List<CartItemDto> items = cart.getItems();
+//        if (items.isEmpty()) {
+//            throw new ResourceNotFoundException("Cart is empty");
+//        }
+//        User user = userService.findByUsername(username)
+//                .orElseThrow(() ->
+//                        new ResourceNotFoundException(String.format("Unable to create an order, user %s not found",
+//                                username))
+//                );
+//        Order order = new Order();
+//        order.setUser(user);
+//        order.setTotalPrice(BigDecimal.ZERO);
+//        order.setOrderItems(new ArrayList<>());
+//        fetchOrderItemsAndCalculateTotalPrice(items, order);
+//        orderRepository.save(order);
+//        cartServiceIntegration.clearCart();
+//    }
 
     private void fetchOrderItemsAndCalculateTotalPrice(List<CartItemDto> items, Order order) {
         for (CartItemDto i : items) {

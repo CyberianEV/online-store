@@ -1,4 +1,4 @@
-package org.store.core.entities;
+package org.store.auth.entities;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
