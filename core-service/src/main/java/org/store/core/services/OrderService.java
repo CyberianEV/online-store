@@ -9,7 +9,6 @@ import org.store.api.CartItemDto;
 import org.store.core.entities.Order;
 import org.store.core.entities.OrderItem;
 import org.store.core.entities.Product;
-import org.store.core.exceptions.ResourceNotFoundException;
 import org.store.core.integrations.CartServiceIntegration;
 import org.store.core.repositories.OrderRepository;
 
@@ -31,28 +30,31 @@ public class OrderService {
         CartDto cart = cartServiceIntegration.getCurrentCart();
         List<CartItemDto> items = cart.getItems();
         if (items.isEmpty()) {
-            throw new ResourceNotFoundException("Cart is empty");
+            throw new IllegalStateException("Cart is empty");
         }
         Order order = new Order();
         order.setUsername(username);
-        order.setTotalPrice(BigDecimal.ZERO);
-        order.setOrderItems(new ArrayList<>());
         fetchOrderItemsAndCalculateTotalPrice(items, order);
-        orderRepository.save(order);
         cartServiceIntegration.clearCart();
+        orderRepository.save(order);
     }
 
     private void fetchOrderItemsAndCalculateTotalPrice(List<CartItemDto> items, Order order) {
+        BigDecimal totalPrice = BigDecimal.ZERO;
+        order.setOrderItems(new ArrayList<>());
+
         for (CartItemDto i : items) {
             try {
                 Product product = productService.findById(i.getProductId()).get();
                 BigDecimal price = product.getPrice().multiply(BigDecimal.valueOf(i.getQuantity()));
-                order.setTotalPrice(order.getTotalPrice().add(price));
+                totalPrice = totalPrice.add(price);
                 order.getOrderItems().add(createOrderItem(i, product, order, price));
             } catch (NoSuchElementException e) {
                 continue;
             }
         }
+
+        order.setTotalPrice(totalPrice);
     }
 
     private OrderItem createOrderItem(CartItemDto cartItem, Product product, Order order, BigDecimal price) {
