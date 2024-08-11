@@ -25,6 +25,10 @@ public class OrderService {
     private final CartServiceIntegration cartServiceIntegration;
     private final ProductService productService;
 
+    public List<Order> findByUsername(String username) {
+        return orderRepository.findAllByUsername(username);
+    }
+
     @Transactional
     public void createNewOrder(String username) {
         CartDto cart = cartServiceIntegration.getCurrentCart();
