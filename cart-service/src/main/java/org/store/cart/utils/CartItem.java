@@ -17,11 +17,6 @@ public class CartItem {
     private int quantity;
     private BigDecimal pricePerProduct;
 
-    public void incrementQuantity() {
-        quantity++;
-        price = price.add(pricePerProduct);
-    }
-
     public void changeQuantity(int delta) {
         quantity += delta;
         if (quantity <= 0) {

@@ -71,7 +71,7 @@ public class OrderServiceTests {
 
         Mockito.doReturn(cartDto)
                 .when(cartServiceIntegration)
-                .getCurrentCart();
+                .getCurrentCart("User");
 
         assertThrows(IllegalStateException.class, () -> orderService.createNewOrder("User"));
     }
@@ -83,7 +83,7 @@ public class OrderServiceTests {
 
         Mockito.doReturn(cartDto)
                 .when(cartServiceIntegration)
-                .getCurrentCart();
+                .getCurrentCart("User");
 
         Mockito.doReturn(Optional.of(breadProd))
                 .when(productService)
@@ -109,7 +109,7 @@ public class OrderServiceTests {
 
         Mockito.doReturn(cartDto)
                 .when(cartServiceIntegration)
-                .getCurrentCart();
+                .getCurrentCart("User");
 
         Mockito.doReturn(Optional.of(breadProd))
                 .when(productService)
