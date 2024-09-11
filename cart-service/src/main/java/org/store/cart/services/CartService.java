@@ -6,35 +6,39 @@ import org.store.api.ProductDto;
 import org.store.cart.integrations.ProductServiceIntegration;
 import org.store.cart.utils.Cart;
 import javax.annotation.PostConstruct;
-import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 
 @Service
 @RequiredArgsConstructor
 public class CartService {
     private final ProductServiceIntegration productService;
-    private Cart cart;
+    private Map<String, Cart> carts;
 
     @PostConstruct
     public void init() {
-        cart = new Cart();
-        cart.setItems(new ArrayList<>());
+        carts = new HashMap<>();
     }
 
-    public void addProductToCart(Long id) {
+    public void addProductToCart(String cartId, Long id) {
         ProductDto p = productService.findById(id);
-        cart.addProduct(p);
+        getCurrentCart(cartId).addProduct(p);
     }
 
-    public Cart getCurrentCart() {
-        return cart;
+    public Cart getCurrentCart(String cartId) {
+        if (!carts.containsKey(cartId)) {
+            Cart currentCart = new Cart();
+            carts.put(cartId, currentCart);
+        }
+        return carts.get(cartId);
     }
 
-    public void clearCart() {
-        cart.clear();
+    public void clearCart(String cartId) {
+        getCurrentCart(cartId).clear();
     }
 
-    public void changeCartItemQuantity(Long productId, int delta) {
-        cart.changeItemQuantity(productId, delta);
+    public void changeCartItemQuantity(String cartId, Long productId, int delta) {
+        getCurrentCart(cartId).changeItemQuantity(productId, delta);
     }
 }

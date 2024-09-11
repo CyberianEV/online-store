@@ -31,7 +31,7 @@ public class OrderService {
 
     @Transactional
     public void createNewOrder(String username) {
-        CartDto cart = cartServiceIntegration.getCurrentCart();
+        CartDto cart = cartServiceIntegration.getCurrentCart(username);
         List<CartItemDto> items = cart.getItems();
         if (items.isEmpty()) {
             throw new IllegalStateException("Cart is empty");
@@ -39,7 +39,7 @@ public class OrderService {
         Order order = new Order();
         order.setUsername(username);
         fetchOrderItemsAndCalculateTotalPrice(items, order);
-        cartServiceIntegration.clearCart();
+        cartServiceIntegration.clearCart(username);
         orderRepository.save(order);
     }
 

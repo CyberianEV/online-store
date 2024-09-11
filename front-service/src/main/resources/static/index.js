@@ -43,6 +43,17 @@
             } catch(e) {
             }
         };
+
+        if ($localStorage.onlineStoreUser) {
+            $http.defaults.headers.common.Authorization = 'Bearer ' + $localStorage.onlineStoreUser.token;
+        };
+
+        if (!$localStorage.onlineStoreGuestCartId) {
+            $http.get('http://localhost:5555/cart/api/v1/cart/generate_id')
+                .then(function(response) {
+                    $localStorage.onlineStoreGuestCartId = response.data.value;
+                });
+        };
     };
 })();
 

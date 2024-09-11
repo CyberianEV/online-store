@@ -1,7 +1,7 @@
-angular.module('store').controller('cartController', function ($scope, $http) {
+angular.module('store').controller('cartController', function ($scope, $http, $localStorage) {
 
     $scope.loadCart = function () {
-        $http.get('http://localhost:5555/cart/api/v1/cart')
+        $http.get('http://localhost:5555/cart/api/v1/cart/' + $localStorage.onlineStoreGuestCartId)
             .then(function (response) {
                 $scope.cart = response.data;
             });
@@ -16,8 +16,12 @@ angular.module('store').controller('cartController', function ($scope, $http) {
             });
     };
 
+    $scope.guestCreateOrder = function () {
+        alert('Please log in to your account to place an order');
+    };
+
     $scope.clearCart = function () {
-        $http.get('http://localhost:5555/cart/api/v1/cart/clear')
+        $http.get('http://localhost:5555/cart/api/v1/cart/' + $localStorage.onlineStoreGuestCartId + '/clear')
             .then(function (response) {
                 $scope.loadCart();
             });
@@ -25,7 +29,7 @@ angular.module('store').controller('cartController', function ($scope, $http) {
 
     $scope.changeItemQuantity = function(productId, delta) {
         $http({
-            url: 'http://localhost:5555/cart/api/v1/cart/change_quantity',
+            url: 'http://localhost:5555/cart/api/v1/cart/' + $localStorage.onlineStoreGuestCartId + '/change_quantity',
             method: 'GET',
             params: {
                 productId: productId,
