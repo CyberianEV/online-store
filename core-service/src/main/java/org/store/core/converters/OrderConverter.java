@@ -16,7 +16,8 @@ public class OrderConverter {
         return new OrderDto(
                 o.getId(),
                 o.getOrderItems().stream().map(orderItemConverter::entityToDto).collect(Collectors.toList()),
-                o.getTotalPrice()
+                o.getTotalPrice(),
+                o.getCreatedAt()
         );
     }
 }

@@ -8,7 +8,7 @@ angular.module('store').controller('cartController', function ($scope, $http, $l
     };
 
     $scope.createOrder = function () {
-        $http.post('http://localhost:5555/core/api/v1/orders')
+        $http.post('http://localhost:5555/core/api/v1/orders', $scope.orderDetails)
             .then(function successCallback(response) {
                 $scope.loadCart();
             }, function errorCallback(response) {

@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.store.api.CartDto;
 import org.store.api.CartItemDto;
+import org.store.api.OrderDetails;
 import org.store.core.entities.Order;
 import org.store.core.entities.OrderItem;
 import org.store.core.entities.Product;
@@ -30,7 +31,7 @@ public class OrderService {
     }
 
     @Transactional
-    public void createNewOrder(String username) {
+    public void createNewOrder(String username, OrderDetails orderDetails) {
         CartDto cart = cartServiceIntegration.getCurrentCart(username);
         List<CartItemDto> items = cart.getItems();
         if (items.isEmpty()) {
@@ -38,6 +39,8 @@ public class OrderService {
         }
         Order order = new Order();
         order.setUsername(username);
+        order.setDeliveryAddress(orderDetails.getDeliveryAddress());
+        order.setPhoneNumber(orderDetails.getPhoneNumber());
         fetchOrderItemsAndCalculateTotalPrice(items, order);
         cartServiceIntegration.clearCart(username);
         orderRepository.save(order);

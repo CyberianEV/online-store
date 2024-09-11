@@ -9,6 +9,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.store.api.CartDto;
 import org.store.api.CartItemDto;
+import org.store.api.OrderDetails;
 import org.store.core.entities.Order;
 import org.store.core.entities.Product;
 import org.store.core.integrations.CartServiceIntegration;
@@ -42,6 +43,7 @@ public class OrderServiceTests {
     private static Product cheeseProd;
     private static Product cucumberProd;
     private static Order expectedOrder;
+    private static OrderDetails orderDetails;
 
     @BeforeAll
     public static void init() {
@@ -62,6 +64,10 @@ public class OrderServiceTests {
 
         expectedOrder = new Order();
         expectedOrder.setUsername("User");
+        expectedOrder.setDeliveryAddress("Town, Street, House");
+        expectedOrder.setPhoneNumber("0151533332121");
+
+        orderDetails = new OrderDetails("Town, Street, House", "0151533332121");
     }
 
     @Test
@@ -73,7 +79,7 @@ public class OrderServiceTests {
                 .when(cartServiceIntegration)
                 .getCurrentCart("User");
 
-        assertThrows(IllegalStateException.class, () -> orderService.createNewOrder("User"));
+        assertThrows(IllegalStateException.class, () -> orderService.createNewOrder("User", orderDetails));
     }
 
     @Test
@@ -97,7 +103,7 @@ public class OrderServiceTests {
                 .when(productService)
                 .findById(3L);
 
-        orderService.createNewOrder("User");
+        orderService.createNewOrder("User", orderDetails);
 
         Mockito.verify(orderRepository, Mockito.times(1)).save(ArgumentMatchers.refEq(expectedOrder, "id", "orderItems", "createdAt", "updatedAt"));
     }
@@ -125,7 +131,7 @@ public class OrderServiceTests {
                 .when(productService)
                 .findById(3L);
 
-        orderService.createNewOrder("User");
+        orderService.createNewOrder("User", orderDetails);
 
         Mockito.verify(orderRepository, Mockito.times(1)).save(ArgumentMatchers.refEq(expectedOrder, "id", "orderItems", "createdAt", "updatedAt"));
     }

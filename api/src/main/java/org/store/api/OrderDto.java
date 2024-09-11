@@ -1,6 +1,9 @@
 package org.store.api;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.List;
 
 public class OrderDto {
@@ -8,10 +11,14 @@ public class OrderDto {
     private List<OrderItemDto> orderItems;
     private BigDecimal totalPrice;
 
-    public OrderDto(Long id, List<OrderItemDto> orderItems, BigDecimal totalPrice) {
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    private LocalDateTime createdAt;
+
+    public OrderDto(Long id, List<OrderItemDto> orderItems, BigDecimal totalPrice, LocalDateTime createdAt) {
         this.id = id;
         this.orderItems = orderItems;
         this.totalPrice = totalPrice;
+        this.createdAt = createdAt;
     }
 
     public Long getId() {
@@ -36,5 +43,13 @@ public class OrderDto {
 
     public void setTotalPrice(BigDecimal totalPrice) {
         this.totalPrice = totalPrice;
+    }
+
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
     }
 }

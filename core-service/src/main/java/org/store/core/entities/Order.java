@@ -29,6 +29,12 @@ public class Order {
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
     private List<OrderItem> orderItems;
 
+    @Column(name = "delivery_address")
+    private String deliveryAddress;
+
+    @Column(name = "phone_number")
+    private String phoneNumber;
+
     @Column(name = "created_at")
     @CreationTimestamp
     private LocalDateTime createdAt;
