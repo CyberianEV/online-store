@@ -47,6 +47,11 @@ public class CartController {
         return new StringResponse(UUID.randomUUID().toString());
     }
 
+    @GetMapping("/{guestCartId}/merge")
+    public void mergeGuestAndUserCarts(@PathVariable String guestCartId, @RequestHeader String username) {
+        cartService.mergeGuestAndUserCarts(guestCartId, username);
+    }
+
     private String selectCartId(String guestCartId, String username) {
         if (username != null) {
             return username;

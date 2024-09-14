@@ -62,6 +62,12 @@
 })();
 
 angular.module('store').controller('indexController', function ($scope, $http, $location, $localStorage) {
+    mergeCarts = function () {
+        $http.get('http://localhost:5555/cart/api/v1/cart/' + $localStorage.onlineStoreGuestCartId + '/merge')
+            .then(function (response) {
+
+        });
+    };
 
     $scope.tryToLogin = function () {
         $http.post('http://localhost:5555/auth/authenticate', $scope.user)
@@ -72,6 +78,8 @@ angular.module('store').controller('indexController', function ($scope, $http, $
 
                     $scope.user.username = null;
                     $scope.user.password = null;
+
+                    mergeCarts();
 
                     $location.path('/');
                 }
