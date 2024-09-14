@@ -41,4 +41,19 @@ public class CartService {
     public void changeCartItemQuantity(String cartId, Long productId, int delta) {
         getCurrentCart(cartId).changeItemQuantity(productId, delta);
     }
+
+    public void mergeGuestAndUserCarts(String sourceCartId, String destinationCartId) {
+        if (!carts.containsKey(sourceCartId) || getCurrentCart(sourceCartId).getItems().isEmpty()) {
+            carts.remove(sourceCartId);
+            return;
+        }
+        Cart destinationCart = getCurrentCart(destinationCartId);
+        if (destinationCart.getItems().isEmpty()) {
+            carts.put(destinationCartId, getCurrentCart(sourceCartId));
+            carts.remove(sourceCartId);
+            return;
+        }
+        destinationCart.merge(getCurrentCart(sourceCartId));
+        carts.remove(sourceCartId);
+    }
 }

@@ -32,8 +32,39 @@
             </tbody>
         </table>
         <p></p>
-        <button class="btn btn-primary" ng-click="createOrder()" ng-show="isUserLoggedIn()">Create Order</button>
-        <button class="btn btn-secondary" ng-click="guestCreateOrder()" ng-show="!isUserLoggedIn()">Create Order</button>
+        <form  ng-show="isUserLoggedIn()", ng-submit="createOrder()">
+            <div class="row mb-3">
+                <label for="inputDeliveryAddress" class="col-sm-2 col-form-label">Delivery Address</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" id="inputDeliveryAddress" ng-model="orderDetails.deliveryAddress" required>
+                </div>
+            </div>
+            <div class="row mb-3">
+                <label for="inputPhoneNumber" class="col-sm-2 col-form-label">Phone number</label>
+                <div class="col-sm-10">
+                    <input type="tel" class="form-control" id="inputPhoneNumber" ng-model="orderDetails.phoneNumber" required>
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary">Create Order</button>
+        </form>
+        <form  ng-show="!isUserLoggedIn()", ng-submit="guestCreateOrder()">
+            <div class="row mb-3">
+                <label for="inputDeliveryAddress2" class="col-sm-2 col-form-label">Delivery Address</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" id="inputDeliveryAddress2" disabled>
+                </div>
+            </div>
+            <div class="row mb-3">
+                <label for="inputPhoneNumber2" class="col-sm-2 col-form-label">Phone number</label>
+                <div class="col-sm-10">
+                    <input type="tel" class="form-control" id="inputPhoneNumber2" disabled>
+                </div>
+            </div>
+            <button type="submit" class="btn btn-secondary">Create Order</button>
+        </form>
+        <p></p>
+<!--        <button class="btn btn-primary" ng-click="createOrder()" ng-show="isUserLoggedIn()">Create Order</button>-->
+<!--        <button class="btn btn-secondary" ng-click="guestCreateOrder()" ng-show="!isUserLoggedIn()">Create Order</button>-->
         <button class="btn btn-danger" ng-click="clearCart()">Empty Cart</button>
     </div>
     <div ng-show="cart.items.length == 0">

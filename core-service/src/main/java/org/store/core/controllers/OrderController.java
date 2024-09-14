@@ -3,6 +3,7 @@ package org.store.core.controllers;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import org.store.api.OrderDetails;
 import org.store.api.OrderDto;
 import org.store.core.converters.OrderConverter;
 import org.store.core.services.OrderService;
@@ -26,7 +27,7 @@ public class OrderController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public void createNewOrder (@RequestHeader String username) {
-        orderService.createNewOrder(username);
+    public void createNewOrder (@RequestHeader String username, @RequestBody OrderDetails orderDetails) {
+        orderService.createNewOrder(username, orderDetails);
     }
 }

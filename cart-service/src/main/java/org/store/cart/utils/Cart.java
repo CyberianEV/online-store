@@ -7,6 +7,7 @@ import org.store.cart.exceptions.ZeroQuantityException;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 @Data
@@ -47,6 +48,23 @@ public class Cart {
     public void clear() {
         items.clear();
         totalPrice = BigDecimal.ZERO;
+    }
+
+    public void merge(Cart anotherCart) {
+        List<CartItem> anotherCartItems = anotherCart.getItems();
+        Iterator<CartItem> iterator = anotherCartItems.iterator();
+        while (iterator.hasNext()) {
+            CartItem i = iterator.next();
+            for (CartItem thisItem : this.items) {
+                if (i.getProductId().equals(thisItem.getProductId())) {
+                    thisItem.setQuantity(i.getQuantity() + thisItem.getQuantity());
+                    thisItem.setPrice(i.getPrice().add(thisItem.getPrice()));
+                    iterator.remove();
+                }
+            }
+        }
+        this.items.addAll(anotherCartItems);
+        recalculate();
     }
 
     private void recalculate() {
