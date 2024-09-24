@@ -1,59 +1,63 @@
 package org.store.cart.services;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import org.store.api.ProductDto;
 import org.store.cart.integrations.ProductServiceIntegration;
 import org.store.cart.utils.Cart;
-import javax.annotation.PostConstruct;
-import java.util.HashMap;
-import java.util.Map;
+
+import java.util.function.Consumer;
 
 
 @Service
 @RequiredArgsConstructor
 public class CartService {
     private final ProductServiceIntegration productService;
-    private Map<String, Cart> carts;
-
-    @PostConstruct
-    public void init() {
-        carts = new HashMap<>();
-    }
+    private final RedisTemplate<String, Object> redisTemplate;
 
     public void addProductToCart(String cartId, Long id) {
-        ProductDto p = productService.findById(id);
-        getCurrentCart(cartId).addProduct(p);
+        execute(cartId, cart -> {
+            ProductDto p = productService.findById(id);
+            cart.addProduct(p);
+        });
     }
 
     public Cart getCurrentCart(String cartId) {
-        if (!carts.containsKey(cartId)) {
+        if (!redisTemplate.hasKey(cartId)) {
             Cart currentCart = new Cart();
-            carts.put(cartId, currentCart);
+            redisTemplate.opsForValue().set(cartId, currentCart);
         }
-        return carts.get(cartId);
+        return (Cart)redisTemplate.opsForValue().get(cartId);
     }
 
     public void clearCart(String cartId) {
-        getCurrentCart(cartId).clear();
+        execute(cartId, Cart::clear);
     }
 
     public void changeCartItemQuantity(String cartId, Long productId, int delta) {
-        getCurrentCart(cartId).changeItemQuantity(productId, delta);
+        execute(cartId, cart -> cart.changeItemQuantity(productId, delta));
     }
 
     public void mergeGuestAndUserCarts(String sourceCartId, String destinationCartId) {
-        if (!carts.containsKey(sourceCartId) || getCurrentCart(sourceCartId).getItems().isEmpty()) {
-            carts.remove(sourceCartId);
+        if (!redisTemplate.hasKey(sourceCartId) || getCurrentCart(sourceCartId).getItems().isEmpty()) {
+            redisTemplate.delete(sourceCartId);
             return;
         }
         Cart destinationCart = getCurrentCart(destinationCartId);
         if (destinationCart.getItems().isEmpty()) {
-            carts.put(destinationCartId, getCurrentCart(sourceCartId));
-            carts.remove(sourceCartId);
+            redisTemplate.opsForValue().set(destinationCartId, getCurrentCart(sourceCartId));
+            redisTemplate.delete(sourceCartId);
             return;
         }
         destinationCart.merge(getCurrentCart(sourceCartId));
-        carts.remove(sourceCartId);
+        redisTemplate.opsForValue().set(destinationCartId, destinationCart);
+        redisTemplate.delete(sourceCartId);
+    }
+
+    private void execute(String cartId, Consumer<Cart> action) {
+        Cart cart = getCurrentCart(cartId);
+        action.accept(cart);
+        redisTemplate.opsForValue().set(cartId, cart);
     }
 }
