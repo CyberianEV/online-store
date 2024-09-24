@@ -2,12 +2,16 @@ package org.store.core.controllers;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.web.bind.annotation.*;
 import org.store.core.converters.ProductConverter;
 import org.store.api.ProductDto;
 import org.store.core.entities.Product;
 import org.store.core.exceptions.ResourceNotFoundException;
+import org.store.core.repositories.specifications.ProductSpecifications;
 import org.store.core.services.ProductService;
+
+import java.math.BigDecimal;
 
 @RestController
 @RequestMapping("/api/v1/products")
@@ -19,12 +23,26 @@ public class ProductController {
     @GetMapping
     public Page<ProductDto> findAll(
             @RequestParam(name = "p", defaultValue = "1") Integer page,
-            @RequestParam(name = "page_size", defaultValue = "5") Integer pageSize
+            @RequestParam(name = "page_size", defaultValue = "5") Integer pageSize,
+            @RequestParam(name = "title_part", required = false) String titlePart,
+            @RequestParam(name = "min_price", required = false) Integer minPrice,
+            @RequestParam(name = "max_price", required = false) Integer maxPrice
     ) {
         if (page < 1) {
             page = 1;
         }
-        return productService.findAll(page - 1, pageSize)
+        Specification<Product> spec = Specification.where(null);
+        if (titlePart != null) {
+            spec = spec.and(ProductSpecifications.titleLike(titlePart));
+        }
+        if (minPrice != null) {
+            spec = spec.and(ProductSpecifications.priceGreaterOrEqualsThan(BigDecimal.valueOf(minPrice)));
+        }
+        if (maxPrice != null) {
+            spec = spec.and(ProductSpecifications.priceLessOrEqualsThan(BigDecimal.valueOf(maxPrice)));
+        }
+
+        return productService.findAll(page - 1, pageSize, spec)
                 .map(productConverter::entityToDto);
     }
 
