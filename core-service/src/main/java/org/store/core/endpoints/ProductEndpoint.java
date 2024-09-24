@@ -31,12 +31,13 @@ public class ProductEndpoint {
         return response;
     }
 
-    @PayloadRoot(namespace = NAMESPACE_URI, localPart = "getAllProductsRequest")
-    @ResponsePayload
-    public GetAllProductsResponse getAllProducts(@RequestPayload GetAllProductsRequest request) {
-        GetAllProductsResponse response = new GetAllProductsResponse();
-        List<Product> products = new ArrayList<>(productService.findAll());
-        products.forEach(p -> response.getProducts().add(productConverter.entityToSoap(p)));
-        return response;
-    }
+//Need to implement changes to work with pagination
+//    @PayloadRoot(namespace = NAMESPACE_URI, localPart = "getAllProductsRequest")
+//    @ResponsePayload
+//    public GetAllProductsResponse getAllProducts(@RequestPayload GetAllProductsRequest request) {
+//        GetAllProductsResponse response = new GetAllProductsResponse();
+//        List<Product> products = new ArrayList<>(productService.findAll());
+//        products.forEach(p -> response.getProducts().add(productConverter.entityToSoap(p)));
+//        return response;
+//    }
 }
