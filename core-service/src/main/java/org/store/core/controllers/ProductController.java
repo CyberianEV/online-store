@@ -1,9 +1,10 @@
 package org.store.core.controllers;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.web.bind.annotation.*;
+import org.store.api.PageDto;
+import org.store.core.converters.PageConverter;
 import org.store.core.converters.ProductConverter;
 import org.store.api.ProductDto;
 import org.store.core.entities.Product;
@@ -19,9 +20,10 @@ import java.math.BigDecimal;
 public class ProductController {
     private final ProductService productService;
     private final ProductConverter productConverter;
+    private final PageConverter pageConverter;
 
     @GetMapping
-    public Page<ProductDto> findAll(
+    public PageDto<ProductDto> findAll(
             @RequestParam(name = "p", defaultValue = "1") Integer page,
             @RequestParam(name = "page_size", defaultValue = "5") Integer pageSize,
             @RequestParam(name = "title_part", required = false) String titlePart,
@@ -42,8 +44,8 @@ public class ProductController {
             spec = spec.and(ProductSpecifications.priceLessOrEqualsThan(BigDecimal.valueOf(maxPrice)));
         }
 
-        return productService.findAll(page - 1, pageSize, spec)
-                .map(productConverter::entityToDto);
+        return pageConverter.entityToDto(productService.findAll(page - 1, pageSize, spec)
+                .map(productConverter::entityToDto));
     }
 
     @GetMapping("/{id}")
