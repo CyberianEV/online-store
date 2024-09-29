@@ -4,17 +4,17 @@ server:
     context-path: /store-auth
 spring:
   datasource:
-    driver-class-name: org.h2.Driver
-    url: jdbc:h2:mem:mydatabase;MODE=PostgreSQL
-    username: sa
-    password:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5433/postgres
+    username: postgres
+    password: postgres
   jpa:
     show-sql: true
   output:
     ansi:
       enabled: always
-  h2:
-    console:
-      enabled: true
-      settings:
-        web-allow-others: false
+#  h2:
+#    console:
+#      enabled: true
+#      settings:
+#        web-allow-others: false

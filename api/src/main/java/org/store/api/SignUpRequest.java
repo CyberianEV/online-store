@@ -1,9 +1,19 @@
 package org.store.api;
 
+import io.swagger.v3.oas.annotations.media.Schema;
+
+@Schema(description = "Sign Up Request Model")
 public class SignUpRequest {
+    @Schema(description = "Username, must be unique", required = true, example = "Albert_80")
     private String username;
+
+    @Schema(description = "User's e-mail, must be unique", required = true, example = "albert80@mail.com")
     private String email;
+
+    @Schema(description = "User's password", required = true, example = "P@ssw0rd")
     private String password;
+
+    @Schema(description = "User's password again, must match with password field", required = true, example = "P@ssw0rd")
     private String passwordConfirmation;
 
     public SignUpRequest() {
