@@ -1,5 +1,12 @@
 package org.store.auth.controllers;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.ExampleObject;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,13 +24,28 @@ import org.store.auth.utils.JwtUtil;
 @RestController
 @RequestMapping("/authenticate")
 @RequiredArgsConstructor
+@Tag(name = "Authorization", description = "Users Authorization Service")
 public class AuthController {
     private final AuthenticationManager authenticationManager;
     private final UserService userService;
     private final JwtUtil jwtUtil;
 
+    @Operation(
+            summary = "Request to authorize user",
+            responses = {
+                    @ApiResponse(
+                            description = "Successfully authorized", responseCode = "200",
+                            content = @Content(schema = @Schema(implementation = JwtResponse.class))
+                    ),
+                    @ApiResponse(
+                            description = "Unsuccessful authorization attempt", responseCode = "401",
+                            content = @Content(schema = @Schema(implementation = AppError.class),
+                                    examples = @ExampleObject(value = "'BAD_CREDENTIALS', 'Invalid user name or password'"))
+                    )
+            }
+    )
     @PostMapping
-    public ResponseEntity<?> getJwToken(@RequestBody JwtRequest request) {
+    public ResponseEntity<?> getJwToken(@RequestBody @Parameter(description = "JWT request", required = true) JwtRequest request) {
         try {
             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(request.getUsername(),
                     request.getPassword())

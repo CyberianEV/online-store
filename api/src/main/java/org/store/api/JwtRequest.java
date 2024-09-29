@@ -1,7 +1,14 @@
 package org.store.api;
 
+import io.swagger.v3.oas.annotations.media.Schema;
+
+@Schema(description = "JWToken request model")
 public class JwtRequest {
+
+    @Schema(description = "Username", required = true, example = "Albert_86")
     private String username;
+
+    @Schema(description = "User password", required = true, example = "P@ssw0rd")
     private String password;
 
     public JwtRequest() {

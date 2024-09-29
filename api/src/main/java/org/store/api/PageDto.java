@@ -1,12 +1,25 @@
 package org.store.api;
 
+import io.swagger.v3.oas.annotations.media.Schema;
+
 import java.util.List;
 
+@Schema(description = "Page of any items")
 public class PageDto<T> {
+
+    @Schema(description = "List of items (objects) on the page", example = "[{1, Bread, 1.99, Food}, {2, Milk, 1.05, Food}]")
     private List<T> content;
+
+    @Schema(description = "Current page number", example = "2")
     private int pageNumber;
+
+    @Schema(description = "Total pages in request", example = "15")
     private int totalPages;
+
+    @Schema(description = "Number of items (objects) on the page", example = "10")
     private int size;
+
+    @Schema(description = "Total number of items (objects) in the request", example = "145")
     private long totalElements;
 
     public PageDto() {
